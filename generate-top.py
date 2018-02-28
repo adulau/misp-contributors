@@ -21,6 +21,14 @@ for user in redcon.zrevrange('topversatile', 0, -1):
                                                      user)
 output += "\n"
 
+output += "## Top contributors per commit \n\n"
+
+for user in redcon.zrevrange('topcommit', 0, -1):
+    gravatar = redcon.get("a:{}".format(user))
+    output += "[![{}]({}){{:height=\"36px\" width=\"36px\"}}]({}{})".format(user, gravatar, url_user, user)
+
+output += "\n"
+
 for repository in sorted(redcon.smembers('repositories')):
     if repository in repo_to_skip:
         continue
