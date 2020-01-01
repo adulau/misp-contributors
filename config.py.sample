@@ -2,5 +2,4 @@
 # -*- coding: utf-8 -*-
 
 username = 'your_github_username'
-password='your_github_password'
-
+token = 'your_github_personal_access_token' # go to https://github.com/settings/tokens for generating a new one
