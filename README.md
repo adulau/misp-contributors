@@ -24,4 +24,4 @@ Start your Redis server.
 
 The software is released under the GNU Affero General Public License v3.0.
 
-Copyright (C) 2018-2020 Alexandre Dulaunoy - https://www.foo.be/
+Copyright (C) 2018-2021 Alexandre Dulaunoy - https://www.foo.be/

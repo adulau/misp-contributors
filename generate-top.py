@@ -1,5 +1,5 @@
 import redis
-redcon = redis.StrictRedis(host='localhost', port=6379, db=10, charset="utf-8", decode_responses=True)
+redcon = redis.StrictRedis(host='localhost', port=6379, db=11, charset="utf-8", decode_responses=True)
 
 output = '---\n'
 output += 'layout: page\n'
@@ -13,7 +13,9 @@ url_github = 'https://www.github.com/MISP/'
 url_user = 'https://www.github.com/'
 repo_to_skip = ['cti-python-stix2', 'SwiftCodes']
 
-output += "# Contributors \n\n"
+all_contributors = redcon.zcard('topversatile')
+
+output += f"# {all_contributors} Contributors \n\n"
 
 for user in redcon.zrevrange('topversatile', 0, -1):
     gravatar = redcon.get("a:{}".format(user))
@@ -21,7 +23,9 @@ for user in redcon.zrevrange('topversatile', 0, -1):
                                                      user)
 output += "\n"
 
-output += "## Top contributors per commit \n\n"
+all_contributors = redcon.zcard('topcommit')
+
+output += f"## Top {all_contributors}  contributors per commit \n\n"
 
 for user in redcon.zrevrange('topcommit', 0, -1):
     gravatar = redcon.get("a:{}".format(user))
@@ -32,7 +36,8 @@ output += "\n"
 for repository in sorted(redcon.smembers('repositories')):
     if repository in repo_to_skip:
         continue
-    output += "# {} \n\n".format(repository)
+    card = redcon.zcard('r:{}'.format(repository))
+    output += "# {} with {} contributors \n\n".format(repository, card)
     output += "The repository [{}]({}{}) is part of the MISP project and has the following top contributors \n\n".format(repository, url_github, repository)
     output += "| username | total commits |\n"
     output += "|:--------:|:-------------:|\n"
